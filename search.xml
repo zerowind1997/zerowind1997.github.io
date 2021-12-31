@@ -29,16 +29,16 @@
 <li>自动垃圾回收功能</li>
 </ul>
 <p><strong>JVM的位置</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/6b5c24b8d634d5a741ef5d8a90db1123.png" alt="image-20200704183048061"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6b5c24b8d634d5a741ef5d8a90db1123.png" alt="JVM的系统位置"></p>
 <p>JVM 是运行在操作系统之上的，它与硬件没有直接的交互</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/cd8b795cf080b8ba40f6915b6242c8af.png" alt="image-20210507104030823"></p>
-<h1 id="1-2-JVM的整体架构"><a href="#1-2-JVM的整体架构" class="headerlink" title="1.2  JVM的整体架构"></a>1.2  JVM的整体架构</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/1bf0b96d082d684a818bc36a8f864a89.png" alt="image-20200704183436495"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cd8b795cf080b8ba40f6915b6242c8af.png" alt="JDK和JRE"></p>
+<h1 id="1-2-JVM的整体架构"><a href="#1-2-JVM的整体架构" class="headerlink" title="1.2  JVM的整体架构"></a>1.2  JVM的整体架构</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/1bf0b96d082d684a818bc36a8f864a89.png" alt="JVM架构图"></p>
 <ul>
 <li>HotSpot VM 是目前市面上高性能虚拟机的代表作之一。</li>
 <li>它采用解释器与即时编译器并存的架构。</li>
 <li>在今天，Java 程序的运行性能早已脱胎换骨，已经达到了可以和 C/C++程序一较高下的地步。</li>
 </ul>
-<h1 id="1-3-Java代码执行流程"><a href="#1-3-Java代码执行流程" class="headerlink" title="1.3  Java代码执行流程"></a>1.3  Java代码执行流程</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/4ce09e21efc2533d2b80f45f97b35a48.png" alt="image-20200704210429535"></p>
+<h1 id="1-3-Java代码执行流程"><a href="#1-3-Java代码执行流程" class="headerlink" title="1.3  Java代码执行流程"></a>1.3  Java代码执行流程</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/4ce09e21efc2533d2b80f45f97b35a48.png" alt="执行流程"></p>
 <h1 id="1-4-JVM-的架构模型"><a href="#1-4-JVM-的架构模型" class="headerlink" title="1.4  JVM 的架构模型"></a>1.4  JVM 的架构模型</h1><p>Java 编译器输入的指令流基本上是一种基于<mark>栈的指令集架构</mark>，另外一种指令集架构则是基于<mark>寄存器的指令集架构</mark>。</p>
 <p>具体来说：这两种架构之间的区别:</p>
 <p><strong>基于栈式架构的特点</strong></p>
@@ -99,32 +99,6 @@
       <tags>
         <tag>Java</tag>
         <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/12/30/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
       </tags>
   </entry>
 </search>
