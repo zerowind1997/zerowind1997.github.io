@@ -1,6 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JVM 与 Java 体系结构</title>
+    <url>/2021/12/31/java-structure/</url>
+    <content><![CDATA[<h1 id="1-1-Java虚拟机"><a href="#1-1-Java虚拟机" class="headerlink" title="1.1  Java虚拟机"></a>1.1  Java虚拟机</h1><p><strong>字节码</strong></p>
+<ul>
+<li>我们平时说的 java 字节码，指的是用 java 语言编译成的字节码。准确的说任何能在 jvm 平台上执行的字节码格式都是一样的。所以应该统称为：<mark>jvm 字节码</mark>。</li>
+<li>不同的编译器，可以编译出相同的字节码文件，字节码文件也可以在不同的 JVM 上运行。</li>
+<li>Java 虚拟机与 Java 语言并没有必然的联系，它只与特定的二进制文件格式—Class 文件格式所关联，Class 文件中包含了 Java 虚拟机指令集（或者称为字节码、Bytecodes）和符号表，还有一些其他辅助信息。</li>
+</ul>
+<p><strong>Java虚拟机</strong></p>
+<ul>
+<li><p>Java虚拟机是一台执行Java字节码的虚拟计算机，它拥有独立的运行机制，其运行的Java字节码也未必由Java语言编译而成。</p>
+</li>
+<li><p>JVM平台的各种语言可以共享Java虚拟机带来的跨平台性、优秀的垃圾回器，以及可靠的即时编译器。</p>
+</li>
+<li><p>==Java技术的核心就是Java虚拟机==（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部。</p>
+</li>
+</ul>
+<p>作用</p>
+<ul>
+<li>Java 虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条 Java 指令，Java 虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。</li>
+</ul>
+<p><code>特点</code></p>
+<ul>
+<li>一次编译，到处运行</li>
+<li>自动内存管理</li>
+<li>自动垃圾回收功能</li>
+</ul>
+<p><strong>JVM的位置</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6b5c24b8d634d5a741ef5d8a90db1123.png" alt="JVM的系统位置"></p>
+<p>JVM 是运行在操作系统之上的，它与硬件没有直接的交互</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cd8b795cf080b8ba40f6915b6242c8af.png" alt="JDK和JRE"></p>
+<h1 id="1-2-JVM的整体架构"><a href="#1-2-JVM的整体架构" class="headerlink" title="1.2  JVM的整体架构"></a>1.2  JVM的整体架构</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/1bf0b96d082d684a818bc36a8f864a89.png" alt="JVM架构图"></p>
+<ul>
+<li>HotSpot VM 是目前市面上高性能虚拟机的代表作之一。</li>
+<li>它采用解释器与即时编译器并存的架构。</li>
+<li>在今天，Java 程序的运行性能早已脱胎换骨，已经达到了可以和 C/C++程序一较高下的地步。</li>
+</ul>
+<h1 id="1-3-Java代码执行流程"><a href="#1-3-Java代码执行流程" class="headerlink" title="1.3  Java代码执行流程"></a>1.3  Java代码执行流程</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/4ce09e21efc2533d2b80f45f97b35a48.png" alt="执行流程"></p>
+<h1 id="1-4-JVM-的架构模型"><a href="#1-4-JVM-的架构模型" class="headerlink" title="1.4  JVM 的架构模型"></a>1.4  JVM 的架构模型</h1><p>Java 编译器输入的指令流基本上是一种基于<mark>栈的指令集架构</mark>，另外一种指令集架构则是基于<mark>寄存器的指令集架构</mark>。</p>
+<p>具体来说：这两种架构之间的区别:</p>
+<p><strong>基于栈式架构的特点</strong></p>
+<ul>
+<li>设计和实现更简单，适用于资源受限的系统</li>
+<li>避开了寄存器的分配难题：使用零地址指令方式分配</li>
+<li>指令流中的指令大部分是零地址指令，其执行过程依赖于操作栈。指令集更小，编译器容易实现</li>
+<li>不需要硬件支持，可移植性更好，更好实现跨平台</li>
+</ul>
+<p><strong>基于寄存器架构的特点</strong></p>
+<ul>
+<li>典型的应用是 x86 的二进制指令集：比如传统的 PC 以及 Android 的 Davlik 虚拟机</li>
+<li>指令集架构则完全依赖硬件，可移植性差</li>
+<li>性能优秀和执行更高效</li>
+<li>花费更少的指令去完成一项操作</li>
+<li>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主</li>
+</ul>
+<p><strong>举例 1</strong></p>
+<p>同样执行 2+3 这种逻辑操作，其指令分别如下：</p>
+<p>基于栈的计算流程（以 Java 虚拟机为例）：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">iconst_2 <span class="comment">//常量2入栈</span></span><br><span class="line">istore_1</span><br><span class="line">iconst_3 <span class="comment">// 常量3入栈</span></span><br><span class="line">istore_2</span><br><span class="line">iload_1</span><br><span class="line">iload_2</span><br><span class="line">iadd <span class="comment">//常量2/3出栈，执行相加</span></span><br><span class="line">istore_0 <span class="comment">// 结果5入栈</span></span><br></pre></td></tr></table></figure>
+
+<p>而基于寄存器的计算流程</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mov eax,<span class="number">2</span> <span class="comment">//将eax寄存器的值设为1</span></span><br><span class="line">add eax,<span class="number">3</span> <span class="comment">//使eax寄存器的值加3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>举例 2</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calc</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">100</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">200</span>;</span><br><span class="line">    <span class="keyword">int</span> c=<span class="number">300</span>;</span><br><span class="line">    <span class="keyword">return</span> (a + b) * c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&gt; javap -c Test.class</span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calc</span><span class="params">()</span></span>;</span><br><span class="line">    Code:</span><br><span class="line">    Stack=<span class="number">2</span>,Locals=<span class="number">4</span>,Args_size=<span class="number">1</span></span><br><span class="line">       <span class="number">0</span>: bipush        <span class="number">100</span></span><br><span class="line">       <span class="number">2</span>: istore_1</span><br><span class="line">       <span class="number">3</span>: sipush        <span class="number">200</span></span><br><span class="line">       <span class="number">6</span>: istore_2</span><br><span class="line">       <span class="number">7</span>: sipush        <span class="number">300</span></span><br><span class="line">      <span class="number">10</span>: istore_3</span><br><span class="line">      <span class="number">11</span>: iload_1</span><br><span class="line">      <span class="number">12</span>: iload_2</span><br><span class="line">      <span class="number">13</span>: iadd</span><br><span class="line">      <span class="number">14</span>: iload_3</span><br><span class="line">      <span class="number">15</span>: imul</span><br><span class="line">      <span class="number">16</span>: ireturn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>总结</strong></p>
+<p><mark>由于跨平台性的设计，Java 的指令都是根据栈来设计的。</mark>不同平台 CPU 架构不同，所以不能设计为基于寄存器的。优点是跨平台，指令集小，编译器容易实现，缺点是性能下降，实现同样的功能需要更多的指令。</p>
+<h1 id="1-5-JVM的生命周期"><a href="#1-5-JVM的生命周期" class="headerlink" title="1.5  JVM的生命周期"></a>1.5  JVM的生命周期</h1><p><strong>虚拟机的启动</strong></p>
+<p>Java 虚拟机的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由虚拟机的具体实现指定的。</p>
+<p><strong>虚拟机的执行</strong></p>
+<ul>
+<li>一个运行中的 Java 虚拟机有着一个清晰的任务：执行 Java 程序。</li>
+<li>程序开始执行时他才运行，程序结束时他就停止。</li>
+<li><mark>执行一个所谓的 Java 程序的时候，真真正正在执行的是一个叫做 Java 虚拟机的进程。</mark></li>
+</ul>
+<p><strong>虚拟机的退出</strong></p>
+<p>有如下的几种情况：</p>
+<ul>
+<li>程序正常执行结束</li>
+<li>程序在执行过程中遇到了异常或错误而异常终止</li>
+<li>由于操作系统用现错误而导致 Java 虚拟机进程终止</li>
+<li>某线程调用 Runtime 类或 system 类的 exit 方法，或 Runtime 类的 halt 方法，并且 Java 安全管理器也允许这次 exit 或 halt 操作。</li>
+<li>除此之外，JNI（Java Native Interface）规范描述了用 JNI Invocation API 来加载或卸载 Java 虚拟机时，Java 虚拟机的退出情况。</li>
+</ul>
+<h1 id="1-6-笔记来源"><a href="#1-6-笔记来源" class="headerlink" title="1.6  笔记来源"></a>1.6  笔记来源</h1><blockquote>
+<p><a href="https://www.bilibili.com/video/BV1PJ411n7xZ">https://www.bilibili.com/video/BV1PJ411n7xZ</a></p>
+<p><a href="https://www.yuque.com/u21195183/jvm">https://www.yuque.com/u21195183/jvm</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>堆空间</title>
     <url>/2022/01/12/heap/</url>
     <content><![CDATA[<h1 id="6-1-堆（Heap）的核心概述"><a href="#6-1-堆（Heap）的核心概述" class="headerlink" title="6.1. 堆（Heap）的核心概述"></a>6.1. 堆（Heap）的核心概述</h1><ul>
@@ -252,7 +353,7 @@
 <li><p>目前Oracle Hotspot JVM 没有在栈上分配那些不会逃逸的对象，所以可以明确所有的对象实例都是创建在堆上。</p>
 </li>
 </ul>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ol>
 <li><p>年轻代是对象的诞生、成长、消亡的区域，一个对象在这里产生、应用，最后被垃圾回收器收集、结束生命。</p>
 </li>
 <li><p>老年代放置长生命周期的对象，通常都是从 survivor 区域筛选拷贝过来的 Java 对象。当然，也有特殊情况，我们知道普通的对象会被分配在 TLAB 上；如果对象较大，JVM 会试图直接分配在 Eden 其他位置上；如果对象太大，完全无法在新生代找到足够长的连续空闲空间，JVM 就会直接分配到老年代。当 GC 只发生在年轻代中，回收年轻代对象的行为被称为 MinorGc。</p>
@@ -260,110 +361,9 @@
 <li><p>当 GC 发生在老年代时则被称为 MajorGc 或者 FullGC。一般的，MinorGc 的发生频率要比 MajorGC 高很多，即老年代中垃圾回收发生的频率将大大低于年轻代。</p>
 </li>
 </ol>
-<h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><blockquote>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><blockquote>
 <p><a href="https://www.bilibili.com/video/BV1PJ411n7xZ">宋红康JVM全套教程</a></p>
 <p><a href="https://www.yuque.com/u21195183/jvm">JVM从入门到精通 · 语雀</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM 与 Java 体系结构</title>
-    <url>/2021/12/31/java-structure/</url>
-    <content><![CDATA[<h1 id="1-1-Java虚拟机"><a href="#1-1-Java虚拟机" class="headerlink" title="1.1  Java虚拟机"></a>1.1  Java虚拟机</h1><p><strong>字节码</strong></p>
-<ul>
-<li>我们平时说的 java 字节码，指的是用 java 语言编译成的字节码。准确的说任何能在 jvm 平台上执行的字节码格式都是一样的。所以应该统称为：<mark>jvm 字节码</mark>。</li>
-<li>不同的编译器，可以编译出相同的字节码文件，字节码文件也可以在不同的 JVM 上运行。</li>
-<li>Java 虚拟机与 Java 语言并没有必然的联系，它只与特定的二进制文件格式—Class 文件格式所关联，Class 文件中包含了 Java 虚拟机指令集（或者称为字节码、Bytecodes）和符号表，还有一些其他辅助信息。</li>
-</ul>
-<p><strong>Java虚拟机</strong></p>
-<ul>
-<li><p>Java虚拟机是一台执行Java字节码的虚拟计算机，它拥有独立的运行机制，其运行的Java字节码也未必由Java语言编译而成。</p>
-</li>
-<li><p>JVM平台的各种语言可以共享Java虚拟机带来的跨平台性、优秀的垃圾回器，以及可靠的即时编译器。</p>
-</li>
-<li><p>==Java技术的核心就是Java虚拟机==（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部。</p>
-</li>
-</ul>
-<p>作用</p>
-<ul>
-<li>Java 虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条 Java 指令，Java 虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。</li>
-</ul>
-<p><code>特点</code></p>
-<ul>
-<li>一次编译，到处运行</li>
-<li>自动内存管理</li>
-<li>自动垃圾回收功能</li>
-</ul>
-<p><strong>JVM的位置</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/6b5c24b8d634d5a741ef5d8a90db1123.png" alt="JVM的系统位置"></p>
-<p>JVM 是运行在操作系统之上的，它与硬件没有直接的交互</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/cd8b795cf080b8ba40f6915b6242c8af.png" alt="JDK和JRE"></p>
-<h1 id="1-2-JVM的整体架构"><a href="#1-2-JVM的整体架构" class="headerlink" title="1.2  JVM的整体架构"></a>1.2  JVM的整体架构</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/1bf0b96d082d684a818bc36a8f864a89.png" alt="JVM架构图"></p>
-<ul>
-<li>HotSpot VM 是目前市面上高性能虚拟机的代表作之一。</li>
-<li>它采用解释器与即时编译器并存的架构。</li>
-<li>在今天，Java 程序的运行性能早已脱胎换骨，已经达到了可以和 C/C++程序一较高下的地步。</li>
-</ul>
-<h1 id="1-3-Java代码执行流程"><a href="#1-3-Java代码执行流程" class="headerlink" title="1.3  Java代码执行流程"></a>1.3  Java代码执行流程</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/4ce09e21efc2533d2b80f45f97b35a48.png" alt="执行流程"></p>
-<h1 id="1-4-JVM-的架构模型"><a href="#1-4-JVM-的架构模型" class="headerlink" title="1.4  JVM 的架构模型"></a>1.4  JVM 的架构模型</h1><p>Java 编译器输入的指令流基本上是一种基于<mark>栈的指令集架构</mark>，另外一种指令集架构则是基于<mark>寄存器的指令集架构</mark>。</p>
-<p>具体来说：这两种架构之间的区别:</p>
-<p><strong>基于栈式架构的特点</strong></p>
-<ul>
-<li>设计和实现更简单，适用于资源受限的系统</li>
-<li>避开了寄存器的分配难题：使用零地址指令方式分配</li>
-<li>指令流中的指令大部分是零地址指令，其执行过程依赖于操作栈。指令集更小，编译器容易实现</li>
-<li>不需要硬件支持，可移植性更好，更好实现跨平台</li>
-</ul>
-<p><strong>基于寄存器架构的特点</strong></p>
-<ul>
-<li>典型的应用是 x86 的二进制指令集：比如传统的 PC 以及 Android 的 Davlik 虚拟机</li>
-<li>指令集架构则完全依赖硬件，可移植性差</li>
-<li>性能优秀和执行更高效</li>
-<li>花费更少的指令去完成一项操作</li>
-<li>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主</li>
-</ul>
-<p><strong>举例 1</strong></p>
-<p>同样执行 2+3 这种逻辑操作，其指令分别如下：</p>
-<p>基于栈的计算流程（以 Java 虚拟机为例）：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">iconst_2 <span class="comment">//常量2入栈</span></span><br><span class="line">istore_1</span><br><span class="line">iconst_3 <span class="comment">// 常量3入栈</span></span><br><span class="line">istore_2</span><br><span class="line">iload_1</span><br><span class="line">iload_2</span><br><span class="line">iadd <span class="comment">//常量2/3出栈，执行相加</span></span><br><span class="line">istore_0 <span class="comment">// 结果5入栈</span></span><br></pre></td></tr></table></figure>
-
-<p>而基于寄存器的计算流程</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mov eax,<span class="number">2</span> <span class="comment">//将eax寄存器的值设为1</span></span><br><span class="line">add eax,<span class="number">3</span> <span class="comment">//使eax寄存器的值加3</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>举例 2</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calc</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">100</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">200</span>;</span><br><span class="line">    <span class="keyword">int</span> c=<span class="number">300</span>;</span><br><span class="line">    <span class="keyword">return</span> (a + b) * c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&gt; javap -c Test.class</span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calc</span><span class="params">()</span></span>;</span><br><span class="line">    Code:</span><br><span class="line">    Stack=<span class="number">2</span>,Locals=<span class="number">4</span>,Args_size=<span class="number">1</span></span><br><span class="line">       <span class="number">0</span>: bipush        <span class="number">100</span></span><br><span class="line">       <span class="number">2</span>: istore_1</span><br><span class="line">       <span class="number">3</span>: sipush        <span class="number">200</span></span><br><span class="line">       <span class="number">6</span>: istore_2</span><br><span class="line">       <span class="number">7</span>: sipush        <span class="number">300</span></span><br><span class="line">      <span class="number">10</span>: istore_3</span><br><span class="line">      <span class="number">11</span>: iload_1</span><br><span class="line">      <span class="number">12</span>: iload_2</span><br><span class="line">      <span class="number">13</span>: iadd</span><br><span class="line">      <span class="number">14</span>: iload_3</span><br><span class="line">      <span class="number">15</span>: imul</span><br><span class="line">      <span class="number">16</span>: ireturn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>总结</strong></p>
-<p><mark>由于跨平台性的设计，Java 的指令都是根据栈来设计的。</mark>不同平台 CPU 架构不同，所以不能设计为基于寄存器的。优点是跨平台，指令集小，编译器容易实现，缺点是性能下降，实现同样的功能需要更多的指令。</p>
-<h1 id="1-5-JVM的生命周期"><a href="#1-5-JVM的生命周期" class="headerlink" title="1.5  JVM的生命周期"></a>1.5  JVM的生命周期</h1><p><strong>虚拟机的启动</strong></p>
-<p>Java 虚拟机的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由虚拟机的具体实现指定的。</p>
-<p><strong>虚拟机的执行</strong></p>
-<ul>
-<li>一个运行中的 Java 虚拟机有着一个清晰的任务：执行 Java 程序。</li>
-<li>程序开始执行时他才运行，程序结束时他就停止。</li>
-<li><mark>执行一个所谓的 Java 程序的时候，真真正正在执行的是一个叫做 Java 虚拟机的进程。</mark></li>
-</ul>
-<p><strong>虚拟机的退出</strong></p>
-<p>有如下的几种情况：</p>
-<ul>
-<li>程序正常执行结束</li>
-<li>程序在执行过程中遇到了异常或错误而异常终止</li>
-<li>由于操作系统用现错误而导致 Java 虚拟机进程终止</li>
-<li>某线程调用 Runtime 类或 system 类的 exit 方法，或 Runtime 类的 halt 方法，并且 Java 安全管理器也允许这次 exit 或 halt 操作。</li>
-<li>除此之外，JNI（Java Native Interface）规范描述了用 JNI Invocation API 来加载或卸载 Java 虚拟机时，Java 虚拟机的退出情况。</li>
-</ul>
-<h1 id="1-6-笔记来源"><a href="#1-6-笔记来源" class="headerlink" title="1.6  笔记来源"></a>1.6  笔记来源</h1><blockquote>
-<p><a href="https://www.bilibili.com/video/BV1PJ411n7xZ">https://www.bilibili.com/video/BV1PJ411n7xZ</a></p>
-<p><a href="https://www.yuque.com/u21195183/jvm">https://www.yuque.com/u21195183/jvm</a></p>
 </blockquote>
 ]]></content>
       <categories>
