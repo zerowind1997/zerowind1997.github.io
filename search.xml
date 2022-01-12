@@ -102,8 +102,8 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM-堆空间（Heap）</title>
-    <url>/blog/2022/01/12/jvm-heap/</url>
+    <title>堆空间</title>
+    <url>/blog/2022/01/12/heap/</url>
     <content><![CDATA[<h1 id="6-1-堆（Heap）的核心概述"><a href="#6-1-堆（Heap）的核心概述" class="headerlink" title="6.1. 堆（Heap）的核心概述"></a>6.1. 堆（Heap）的核心概述</h1><ul>
 <li>堆针对一个 JVM 进程来说是唯一的，也就是一个进程只有一个 JVM，但是进程包含多个线程，他们是共享同一堆空间的。</li>
 <li>Java 堆区在 JVM 启动的时候即被创建，其空间大小也就确定了。是 JVM 管理的最大一块内存空间。</li>
